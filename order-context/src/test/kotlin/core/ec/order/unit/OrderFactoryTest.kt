@@ -1,15 +1,14 @@
 package core.ec.order.unit
 
-import core.ec.common.EntityObject
+import core.ec.order.common.EntityObject
 import core.ec.order.data_address
 import core.ec.order.data_member
-import core.ec.domain.model.*
+import core.ec.order.domain.model.*
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 import java.io.StringWriter
-import java.util.*
 import kotlin.reflect.full.memberProperties
 import kotlin.reflect.jvm.isAccessible
 

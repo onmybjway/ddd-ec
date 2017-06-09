@@ -1,8 +1,8 @@
 package core.ec.order.integration
 
-import core.ec.IntegrationTest
-import core.ec.application.IOrderService
-import core.ec.application.OrderCreateCommand
+import core.ec.order.IntegrationTest
+import core.ec.order.application.IOrderService
+import core.ec.order.application.OrderCreateCommand
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Ignore
 import org.junit.Test

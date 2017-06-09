@@ -2,7 +2,7 @@ package core.ec.order.integration
 
 import core.ec.order.data_address
 import core.ec.order.data_member
-import core.ec.domain.model.*
+import core.ec.order.domain.model.*
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 import org.junit.runner.RunWith

@@ -1,10 +1,10 @@
 package core.ec.order.unit
 
-import core.ec.common.DomainEvent
+import core.ec.order.common.DomainEvent
 import core.ec.order.data_address
 import core.ec.order.data_member
-import core.ec.domain.event.OrderStatusChangedEvent
-import core.ec.domain.model.*
+import core.ec.order.domain.event.OrderStatusChangedEvent
+import core.ec.order.domain.model.*
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.assertj.core.api.iterable.Extractor

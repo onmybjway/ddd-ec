@@ -1,9 +1,9 @@
 package core.ec.order.unit
 
-import core.ec.domain.model.Order
-import core.ec.domain.model.OrderStatus
-import core.ec.domain.model.Product
-import core.ec.domain.model.ProductSnapshot
+import core.ec.order.domain.model.Order
+import core.ec.order.domain.model.OrderStatus
+import core.ec.order.domain.model.Product
+import core.ec.order.domain.model.ProductSnapshot
 import core.ec.order.data_address
 import core.ec.order.data_member
 import org.assertj.core.api.Assertions.assertThat

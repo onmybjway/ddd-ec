@@ -1,7 +1,7 @@
 package core.ec.order.unit
 
-import core.ec.application.IOrderService
-import core.ec.port.rest.OrderController
+import core.ec.order.application.IOrderService
+import core.ec.order.port.rest.OrderController
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
