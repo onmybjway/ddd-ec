@@ -1,0 +1,16 @@
+spring:
+  profiles:
+    default: dev
+    active: dev
+  h2:
+    console: enabled
+
+
+productService:
+  urlbase: http://localhost:8080/product
+
+logging:
+  level:
+    root: warn
+    core.ec: debug
+
