@@ -1,14 +1,12 @@
-package core.ec.order.common
-
-import java.io.Serializable
+package core.ec.common
 
 open class EnumWithKey(
         val key: String,
         val value: String,
         val description: String
-) : Serializable {
+) : java.io.Serializable {
     init {
-        add(this)
+        core.ec.common.EnumWithKey.Companion.add(this)
     }
 
     override fun toString(): String {
@@ -18,7 +16,7 @@ open class EnumWithKey(
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other?.javaClass != javaClass) return false
-        other as EnumWithKey
+        other as core.ec.common.EnumWithKey
         if (key != other.key) return false
         return true
     }
@@ -28,14 +26,14 @@ open class EnumWithKey(
     }
 
     internal companion object {
-        val enumHolder: MutableSet<EnumWithKey> = HashSet()
+        val enumHolder: MutableSet<core.ec.common.EnumWithKey> = HashSet()
 
-        fun add(theEnum: EnumWithKey) {
-            enumHolder.add(theEnum)
+        fun add(theEnum: core.ec.common.EnumWithKey) {
+            core.ec.common.EnumWithKey.Companion.enumHolder.add(theEnum)
         }
 
-        fun formKey(key: String): EnumWithKey {
-            return enumHolder.firstOrNull({ itemLine -> itemLine.key == key })
+        fun formKey(key: String): core.ec.common.EnumWithKey {
+            return core.ec.common.EnumWithKey.Companion.enumHolder.firstOrNull({ itemLine -> itemLine.key == key })
                     ?: throw RuntimeException("do not match the key:$key")
         }
     }

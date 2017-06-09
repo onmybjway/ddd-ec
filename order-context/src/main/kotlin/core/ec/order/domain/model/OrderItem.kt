@@ -1,6 +1,7 @@
 package core.ec.order.domain.model
 
-import core.ec.order.common.ValueObject
+import core.ec.common.ValueObject
+import core.ec.product.domain.model.Product
 import org.hibernate.validator.constraints.NotBlank
 import java.math.BigDecimal
 import javax.persistence.Embedded

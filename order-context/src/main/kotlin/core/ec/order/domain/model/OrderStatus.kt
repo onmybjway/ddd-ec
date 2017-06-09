@@ -1,6 +1,6 @@
 package core.ec.order.domain.model
 
-import core.ec.order.common.EnumWithKey
+import core.ec.common.EnumWithKey
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer
 

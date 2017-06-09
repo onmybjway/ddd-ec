@@ -1,6 +1,6 @@
-package core.ec.order.domain.model
+package core.ec.member.domain.model
 
-import core.ec.order.common.ValueObject
+import core.ec.common.ValueObject
 
 /**
 

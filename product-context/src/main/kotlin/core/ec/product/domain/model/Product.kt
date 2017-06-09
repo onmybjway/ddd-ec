@@ -1,6 +1,6 @@
-package core.ec.order.domain.model
+package core.ec.product.domain.model
 
-import core.ec.order.common.ValueObject
+import core.ec.common.ValueObject
 
 import java.math.BigDecimal
 import java.math.RoundingMode

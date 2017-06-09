@@ -1,6 +1,6 @@
 package core.ec.order.domain.event
 
-import core.ec.order.common.DomainEvent
+import core.ec.common.DomainEvent
 import core.ec.order.domain.model.OrderStatus
 
 /**

@@ -1,6 +1,5 @@
 package core.ec.order.integration
 
-import core.ec.order.IntegrationTest
 import core.ec.order.application.IOrderService
 import core.ec.order.application.OrderCreateCommand
 import org.assertj.core.api.Assertions.assertThat

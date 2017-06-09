@@ -1,6 +1,7 @@
-package core.ec.order.application
+package core.ec.member.application
 
-import core.ec.order.domain.model.Member
+
+import core.ec.member.domain.model.Member
 import java.util.*
 
 

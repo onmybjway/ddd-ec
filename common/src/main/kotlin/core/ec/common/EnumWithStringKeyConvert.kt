@@ -1,11 +1,8 @@
-package core.ec.order.common
-
-import javax.persistence.AttributeConverter
-import javax.persistence.Convert
+package core.ec.common
 
 
-@Convert
-class EnumWithStringKeyConvert : AttributeConverter<EnumWithKey, String> {
+@javax.persistence.Convert
+class EnumWithStringKeyConvert : javax.persistence.AttributeConverter<EnumWithKey, String> {
     override fun convertToDatabaseColumn(attribute: EnumWithKey): String {
         return attribute.key
     }

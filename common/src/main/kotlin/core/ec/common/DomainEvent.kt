@@ -1,4 +1,4 @@
-package core.ec.order.common
+package core.ec.common
 
 import java.util.*
 

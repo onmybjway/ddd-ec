@@ -1,10 +1,12 @@
 package core.ec.order.application
 
+import core.ec.member.application.IMemberService
 import core.ec.order.application.exceptions.*
 import core.ec.order.domain.event.OrderCreatedEvent
 import core.ec.order.domain.event.OrderStatusChangedEvent
 import core.ec.order.domain.model.*
 import core.ec.order.modelMapper
+import core.ec.product.application.IProductService
 import org.apache.commons.lang3.RandomStringUtils
 import org.slf4j.LoggerFactory
 import org.springframework.context.event.EventListener

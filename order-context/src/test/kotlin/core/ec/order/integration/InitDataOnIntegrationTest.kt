@@ -1,8 +1,9 @@
-package core.ec.order
+package core.ec.order.integration
 
 import core.ec.order.domain.model.*
 import core.ec.order.data_address
 import core.ec.order.data_member
+import core.ec.product.domain.model.Product
 import org.apache.commons.lang3.RandomStringUtils
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.context.event.ApplicationReadyEvent

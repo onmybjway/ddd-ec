@@ -1,10 +1,9 @@
 package core.ec.order.domain.model
 
-import core.ec.order.common.EnumWithStringKeyConvert
-import core.ec.order.common.ValueObject
+import core.ec.common.EnumWithStringKeyConvert
+import core.ec.common.ValueObject
 import java.util.*
 import javax.persistence.*
-import javax.validation.constraints.Past
 
 /**
  * 订单变更记录

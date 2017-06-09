@@ -1,11 +1,12 @@
 package core.ec.order.unit
 
-import core.ec.order.common.EntityObject
+import core.ec.common.EntityObject
 import core.ec.order.data_address
 import core.ec.order.data_member
 import core.ec.order.domain.model.*
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.KotlinModule
+import core.ec.product.domain.model.Product
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 import java.io.StringWriter
@@ -41,6 +42,7 @@ class OrderFactoryTest {
         //        verify(eventBusService, times(1)).publish(isA(OrderCreatedEvent.class));
 
         val filed = EntityObject::class.memberProperties.first({ kProperty1 -> kProperty1.name == "_events" })
+
         filed.isAccessible = true
         val events = filed.get(order) as Collection<*>
         assertThat(events).isNotNull
