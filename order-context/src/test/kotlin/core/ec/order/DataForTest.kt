@@ -1,6 +1,6 @@
 package core.ec.order
 
-import core.ec.member.domain.model.Member
+import core.ec.order.domain.model.Member
 import core.ec.order.domain.model.ShippingAddress
 
 val data_address = ShippingAddress("hebei",

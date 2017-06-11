@@ -1,4 +1,4 @@
-package core.ec.member.domain.model
+package core.ec.order.domain.model
 
 import core.ec.common.ValueObject
 

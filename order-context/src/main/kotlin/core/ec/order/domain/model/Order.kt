@@ -2,10 +2,9 @@ package core.ec.order.domain.model
 
 import core.ec.common.EntityObject
 import core.ec.common.EnumWithStringKeyConvert
-import core.ec.member.domain.model.Member
 import core.ec.order.domain.event.OrderCreatedEvent
 import core.ec.order.domain.event.OrderStatusChangedEvent
-import core.ec.product.domain.model.Product
+
 import org.hibernate.validator.constraints.NotBlank
 import org.slf4j.LoggerFactory
 import java.math.BigDecimal

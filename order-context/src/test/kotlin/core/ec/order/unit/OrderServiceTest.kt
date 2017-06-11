@@ -1,8 +1,8 @@
 package core.ec.order.unit
 
-import core.ec.member.application.IMemberService
-import core.ec.member.domain.model.Member
-import core.ec.product.application.IProductService
+import core.ec.order.port.IMemberService
+import core.ec.order.domain.model.Member
+import core.ec.order.port.IProductService
 import core.ec.order.application.OrderCreateCommand
 import core.ec.order.application.OrderService
 import core.ec.order.application.exceptions.MemberNotFoundException
@@ -10,7 +10,8 @@ import core.ec.order.application.exceptions.ProductNotFoundException
 import core.ec.order.application.exceptions.ProductNotMatchException
 import core.ec.order.domain.model.Order
 import core.ec.order.domain.model.OrderRepository
-import core.ec.product.domain.model.Product
+import core.ec.order.domain.model.Product
+
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.Test

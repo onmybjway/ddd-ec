@@ -1,7 +1,7 @@
-package core.ec.member.application
+package core.ec.order.port
 
 
-import core.ec.member.domain.model.Member
+import core.ec.order.domain.model.Member
 import java.util.*
 
 

@@ -1,7 +1,8 @@
-package core.ec.product.application
+package core.ec.order.port
 
 
-import core.ec.product.domain.model.Product
+
+import core.ec.order.domain.model.Product
 import java.util.*
 
 interface IProductService {

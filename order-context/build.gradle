@@ -52,8 +52,8 @@ dependencies {
 	testCompile 'org.assertj:assertj-core:3.8.0'
 
 	compile project (':common')
-	compile project (':product-context')
-	compile project (':member-context')
+//	compile project (':product-context')
+//	compile project (':member-context')
 
 
 

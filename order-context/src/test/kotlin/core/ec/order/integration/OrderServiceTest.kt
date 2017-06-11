@@ -2,12 +2,15 @@ package core.ec.order.integration
 
 import core.ec.order.application.IOrderService
 import core.ec.order.application.OrderCreateCommand
+import core.ec.order.port.IMemberService
+import core.ec.order.port.IProductService
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Ignore
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.test.context.junit4.SpringRunner
 
 @RunWith(SpringRunner::class)
@@ -17,6 +20,12 @@ class OrderServiceTest {
 
     @Autowired
     lateinit var orderService: IOrderService
+
+    @MockBean
+    lateinit var memberService: IMemberService
+
+    @MockBean
+    lateinit var productService: IProductService
 
     @Test
     fun getByOrderNumber() {

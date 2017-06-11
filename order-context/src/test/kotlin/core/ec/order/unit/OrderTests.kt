@@ -5,7 +5,8 @@ import core.ec.order.domain.model.OrderStatus
 import core.ec.order.domain.model.ProductSnapshot
 import core.ec.order.data_address
 import core.ec.order.data_member
-import core.ec.product.domain.model.Product
+import core.ec.order.domain.model.Product
+
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.Test

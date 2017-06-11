@@ -1,7 +1,5 @@
 package core.ec.order.domain.model
 
-import core.ec.member.domain.model.Member
-
 class OrderFactory private constructor(){
 
     companion object {

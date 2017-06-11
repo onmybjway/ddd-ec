@@ -1,7 +1,6 @@
 package core.ec.order.domain.model
 
 import core.ec.common.ValueObject
-import core.ec.product.domain.model.Product
 
 /**
 
