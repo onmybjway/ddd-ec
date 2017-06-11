@@ -1,15 +1,20 @@
 package core.ec.order.application
 
-import core.ec.order.port.IMemberService
-import core.ec.order.exceptions.*
 import core.ec.order.domain.event.OrderCreatedEvent
 import core.ec.order.domain.event.OrderStatusChangedEvent
 import core.ec.order.domain.model.*
+import core.ec.order.exceptions.MemberNotFoundException
+import core.ec.order.exceptions.MemberUnavailableException
+import core.ec.order.exceptions.ProductNotFoundException
+import core.ec.order.exceptions.ProductNotMatchException
 import core.ec.order.modelMapper
+import core.ec.order.port.IMemberService
 import core.ec.order.port.IProductService
 import org.apache.commons.lang3.RandomStringUtils
 import org.slf4j.LoggerFactory
 import org.springframework.context.event.EventListener
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.scheduling.annotation.Async
 import org.springframework.stereotype.Service
 import org.springframework.transaction.event.TransactionalEventListener
@@ -32,14 +37,15 @@ class OrderService(
         return this.orderRepository.getByOrderNumber(orderNumber)
     }
 
-    override fun findByMember(memberId: Long): Iterable<Order> = this.orderRepository.findByMember_MemberId(memberId)
+    override fun findByMember(memberId: Long, pageable: Pageable): Page<Order>
+            = this.orderRepository.findByMember_MemberId(memberId, pageable)
 
     @Transactional
     override fun create(createCmd: OrderCreateCommand): String {
         //get the member
         val member = memberService.getByMemberId(createCmd.memberId)
                 .orElseThrow { -> MemberNotFoundException(createCmd.memberId) }
-        if(member.status !=MemberStatus.ACTIVE) throw MemberUnavailableException(createCmd.memberId)
+        if (member.status != MemberStatus.ACTIVE) throw MemberUnavailableException(createCmd.memberId)
 
         val address = modelMapper.map(createCmd.address, ShippingAddress::class.java)
 
