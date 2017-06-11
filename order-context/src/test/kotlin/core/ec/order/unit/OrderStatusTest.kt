@@ -5,7 +5,7 @@ import core.ec.order.data_address
 import core.ec.order.data_member
 import core.ec.order.domain.event.OrderStatusChangedEvent
 import core.ec.order.domain.model.*
-
+import core.ec.order.domain.model.Product
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.assertj.core.api.iterable.Extractor

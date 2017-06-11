@@ -3,7 +3,7 @@ package core.ec.order.integration
 import core.ec.order.domain.model.*
 import core.ec.order.data_address
 import core.ec.order.data_member
-
+import core.ec.order.domain.model.Product
 import org.apache.commons.lang3.RandomStringUtils
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.context.event.ApplicationReadyEvent
@@ -32,7 +32,8 @@ class InitDataOnIntegrationTest : ApplicationListener<ApplicationReadyEvent> {
                     CartItem(
                             Product(productId = "product$it",
                                     productName = "product-${RandomStringUtils.randomAlphabetic(6)}",
-                                    thePrice = Random().nextDouble() * 100 + 0.01)
+                                    thePrice = Random().nextDouble() * 100 + 0.01,
+                                    inStock = 999)
                             , Random().nextInt(999) + 1)
                 }.toSet()
         return OrderFactory.createOrder(orderNumber, data_member, data_address, cartItems,

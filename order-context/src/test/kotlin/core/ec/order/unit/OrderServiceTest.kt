@@ -1,17 +1,11 @@
 package core.ec.order.unit
 
-import core.ec.order.port.IMemberService
-import core.ec.order.domain.model.Member
-import core.ec.order.port.IProductService
 import core.ec.order.application.OrderCreateCommand
 import core.ec.order.application.OrderService
-import core.ec.order.application.exceptions.MemberNotFoundException
-import core.ec.order.application.exceptions.ProductNotFoundException
-import core.ec.order.application.exceptions.ProductNotMatchException
-import core.ec.order.domain.model.Order
-import core.ec.order.domain.model.OrderRepository
-import core.ec.order.domain.model.Product
-
+import core.ec.order.domain.model.*
+import core.ec.order.exceptions.*
+import core.ec.order.port.IMemberService
+import core.ec.order.port.IProductService
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.Test
@@ -24,7 +18,6 @@ import java.util.*
 
 @RunWith(SpringRunner::class)
 class OrderServiceTest {
-
 
     private val createCmd = OrderCreateCommand(
             1,
@@ -42,11 +35,11 @@ class OrderServiceTest {
     fun create_should_success() {
         //arrange
         val memberService = mock(IMemberService::class.java)
-        `when`(memberService.getByMemberId(1)).thenReturn(Optional.of(Member(1, "ok")))
+        `when`(memberService.getByMemberId(1)).thenReturn(Optional.of(Member(1, "ok", MemberStatus.ACTIVE)))
 
         val productService = mock(IProductService::class.java)
         given(productService.getByProductId(Matchers.anyString()))
-                .willAnswer({ Optional.of(Product(it.arguments[0] as String, "product", 9.99)) })
+                .willAnswer({ Optional.of(Product(it.arguments[0] as String, "product", 9.99, 999)) })
 
         val orderRepository = mock(OrderRepository::class.java)
         given(orderRepository.save(any(Order::class.java))).willAnswer({ it.arguments[0] })
@@ -83,7 +76,7 @@ class OrderServiceTest {
     fun create_should_fail_when_product_not_found() {
         //arrange
         val memberService = mock(IMemberService::class.java)
-        `when`(memberService.getByMemberId(1)).thenReturn(Optional.of(Member(1, "ok")))
+        `when`(memberService.getByMemberId(1)).thenReturn(Optional.of(Member(1, "ok", MemberStatus.ACTIVE)))
 
         val productService = mock(IProductService::class.java)
         given(productService.getByProductId(Matchers.anyString())).willReturn(Optional.ofNullable(null))
@@ -102,7 +95,7 @@ class OrderServiceTest {
     fun create_should_fail_when_product_not_match() {
         //arrange
         val memberService = mock(IMemberService::class.java)
-        `when`(memberService.getByMemberId(1)).thenReturn(Optional.of(Member(1, "ok")))
+        `when`(memberService.getByMemberId(1)).thenReturn(Optional.of(Member(1, "ok", MemberStatus.ACTIVE)))
 
         val productService = mock(IProductService::class.java)
         given(productService.getByProductId(Matchers.anyString()))
@@ -116,5 +109,45 @@ class OrderServiceTest {
 
         //assert
         assertThatThrownBy { orderService.create(createCmd) }.isInstanceOf(ProductNotMatchException::class.java)
+    }
+
+    @Test
+    fun create_should_fail_when_product_under_stock() {
+        //arrange
+        val memberService = mock(IMemberService::class.java)
+        `when`(memberService.getByMemberId(1)).thenReturn(Optional.of(Member(1, "ok", MemberStatus.ACTIVE)))
+
+        val productService = mock(IProductService::class.java)
+        given(productService.getByProductId(Matchers.anyString()))
+                .willAnswer({ Optional.of(Product(it.arguments[0] as String, "product", 9.99, 0)) })
+
+        val orderRepository = mock(OrderRepository::class.java)
+        given(orderRepository.save(any(Order::class.java))).willAnswer({ it.arguments[0] })
+
+        //act
+        val orderService = OrderService(orderRepository, memberService, productService)
+
+        //assert
+        assertThatThrownBy { orderService.create(createCmd) }.isInstanceOf(ProductOutOfStockException::class.java)
+    }
+
+    @Test
+    fun create_should_fail_when_member_has_blocked() {
+        //arrange
+        val memberService = mock(IMemberService::class.java)
+        `when`(memberService.getByMemberId(1)).thenReturn(Optional.of(Member(1, "ok", MemberStatus.BLOCKED)))
+
+        val productService = mock(IProductService::class.java)
+        given(productService.getByProductId(Matchers.anyString()))
+                .willAnswer({ Optional.of(Product(it.arguments[0] as String, "product", 9.99, 999)) })
+
+        val orderRepository = mock(OrderRepository::class.java)
+        given(orderRepository.save(any(Order::class.java))).willAnswer({ it.arguments[0] })
+
+        //act
+        val orderService = OrderService(orderRepository, memberService, productService)
+
+        //assert
+        assertThatThrownBy { orderService.create(createCmd) }.isInstanceOf(MemberUnavailableException::class.java)
     }
 }

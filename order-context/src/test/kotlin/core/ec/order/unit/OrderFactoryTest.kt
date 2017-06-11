@@ -6,7 +6,7 @@ import core.ec.order.data_member
 import core.ec.order.domain.model.*
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.KotlinModule
-
+import core.ec.order.domain.model.Product
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 import java.io.StringWriter

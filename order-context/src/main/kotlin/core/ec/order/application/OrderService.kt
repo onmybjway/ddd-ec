@@ -1,7 +1,7 @@
 package core.ec.order.application
 
 import core.ec.order.port.IMemberService
-import core.ec.order.application.exceptions.*
+import core.ec.order.exceptions.*
 import core.ec.order.domain.event.OrderCreatedEvent
 import core.ec.order.domain.event.OrderStatusChangedEvent
 import core.ec.order.domain.model.*
@@ -39,6 +39,7 @@ class OrderService(
         //get the member
         val member = memberService.getByMemberId(createCmd.memberId)
                 .orElseThrow { -> MemberNotFoundException(createCmd.memberId) }
+        if(member.status !=MemberStatus.ACTIVE) throw MemberUnavailableException(createCmd.memberId)
 
         val address = modelMapper.map(createCmd.address, ShippingAddress::class.java)
 
@@ -46,10 +47,8 @@ class OrderService(
             val product = productService.getByProductId(it.productId)
                     .orElseThrow { -> ProductNotFoundException(it.productId) }
 
-            //todo:can extract to fun
+            //todo:this logic can extract to a function
             if (product.price != BigDecimal.valueOf(it.price)) throw ProductNotMatchException(it.productId)
-
-            //todo:check stock
 
             CartItem(product, it.quantity)
         }.toSet()

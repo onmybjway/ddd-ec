@@ -2,7 +2,7 @@ package core.ec.order.domain.model
 
 
 import core.ec.common.ValueObject
-
+import core.ec.order.domain.model.Product
 import org.hibernate.validator.constraints.Length
 import org.hibernate.validator.constraints.NotBlank
 import java.math.BigDecimal

@@ -2,9 +2,9 @@ package core.ec.order.domain.model
 
 import core.ec.common.EntityObject
 import core.ec.common.EnumWithStringKeyConvert
+import core.ec.order.exceptions.ProductOutOfStockException
 import core.ec.order.domain.event.OrderCreatedEvent
 import core.ec.order.domain.event.OrderStatusChangedEvent
-
 import org.hibernate.validator.constraints.NotBlank
 import org.slf4j.LoggerFactory
 import java.math.BigDecimal
@@ -99,11 +99,15 @@ class Order private constructor() : EntityObject() {
      * @param quantity quantity of product
      */
     fun addItem(product: Product, quantity: Int) {
+
+        if (product.inStock < quantity) throw ProductOutOfStockException(product.productId)
+
         val newItem = OrderItem(product, quantity)
         // check duplicate
         if (this._items.contains(newItem)) {
             throw RuntimeException("do not add duplicate product")
         }
+
         // put in enumHolder
         this._items.add(newItem)
 
@@ -131,7 +135,7 @@ class Order private constructor() : EntityObject() {
         //record log
         this._logs.add(OrderChangeLog(fromStatus = beforStatus, toStatus = this.status))
         //trigger event(record)
-        this._events.add(OrderStatusChangedEvent(this.orderNumber, beforStatus, changeTo =  this.status))
+        this._events.add(OrderStatusChangedEvent(this.orderNumber, beforStatus, changeTo = this.status))
 
         this.lastChangeTime = Date()
     }
