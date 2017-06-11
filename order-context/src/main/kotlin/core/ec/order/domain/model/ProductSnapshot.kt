@@ -2,12 +2,10 @@ package core.ec.order.domain.model
 
 
 import core.ec.common.ValueObject
-import core.ec.order.domain.model.Product
 import org.hibernate.validator.constraints.Length
 import org.hibernate.validator.constraints.NotBlank
 import java.math.BigDecimal
 import java.math.RoundingMode
-
 import javax.persistence.Column
 import javax.persistence.Embeddable
 import javax.validation.constraints.DecimalMin
@@ -27,9 +25,16 @@ class ProductSnapshot private constructor() : ValueObject() {
             field = if (v.scale() == 2) v else v.setScale(2, RoundingMode.HALF_UP)
         }
 
+    @DecimalMin("0.01")
+    var cost: BigDecimal = BigDecimal.ZERO
+        private set(v) {
+            field = if (v.scale() == 2) v else v.setScale(2, RoundingMode.HALF_UP)
+        }
+
     constructor(product: Product) : this() {
         productName = product.productName
         price = product.price
+        cost = product.cost
     }
 
 }

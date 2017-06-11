@@ -8,4 +8,4 @@ class ProductNotMatchException(productId: String) : RuntimeException("product [$
 
 class ProductOutOfStockException(productId: String):RuntimeException("product [$productId] is out of stock")
 
-class MemberUnavailableException(memberId: Long) : RuntimeException("the member [$memberId] has blocked")
+class MemberUnavailableException(memberId: Long) : RuntimeException("the member [$memberId] is unavailable")

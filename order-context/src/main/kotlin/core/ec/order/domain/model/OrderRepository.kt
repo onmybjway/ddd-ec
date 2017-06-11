@@ -7,7 +7,5 @@ import java.util.*
 
 interface OrderRepository : JpaRepository<Order, Long> {
     fun getByOrderNumber(orderNumber: String): Optional<Order>
-    fun findByMember_MemberId(memberId: Long, pageable: Pageable): Page<Order>
-
-
+    fun findByMember_MemberIdOrderByCreateTimeDesc(memberId: Long, pageable: Pageable): Page<Order>
 }

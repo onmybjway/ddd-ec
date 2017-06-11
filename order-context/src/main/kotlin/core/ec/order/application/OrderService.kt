@@ -38,21 +38,24 @@ class OrderService(
     }
 
     override fun findByMember(memberId: Long, pageable: Pageable): Page<Order>
-            = this.orderRepository.findByMember_MemberId(memberId, pageable)
+            = this.orderRepository.findByMember_MemberIdOrderByCreateTimeDesc(memberId, pageable)
 
     @Transactional
     override fun create(createCmd: OrderCreateCommand): String {
         //get the member
         val member = memberService.getByMemberId(createCmd.memberId)
                 .orElseThrow { -> MemberNotFoundException(createCmd.memberId) }
+
         if (member.status != MemberStatus.ACTIVE) throw MemberUnavailableException(createCmd.memberId)
 
         val address = modelMapper.map(createCmd.address, ShippingAddress::class.java)
 
         val items = createCmd.cartItems.map {
+            //todo:需要优化为批量查询
             val product = productService.getByProductId(it.productId)
                     .orElseThrow { -> ProductNotFoundException(it.productId) }
 
+            //todo:思考这部分验证商品价格变更的逻辑是否应该放在领域模型里
             //todo:this logic can extract to a function
             if (product.price != BigDecimal.valueOf(it.price)) throw ProductNotMatchException(it.productId)
 
