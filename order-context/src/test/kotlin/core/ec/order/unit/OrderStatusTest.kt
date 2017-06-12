@@ -35,7 +35,7 @@ class OrderStatusTest {
         assertThat(order.status).isEqualTo(OrderStatus.VALID)
         assertThat(allChangeLogsWithoutCreateLog(order)).hasSize(2)
 
-        order.packageSent()
+        order.packageSent(Waybill.NULL)
         assertThat(order.status).isEqualTo(OrderStatus.SHIPPING)
         assertThat(allChangeLogsWithoutCreateLog(order)).hasSize(3)
 
@@ -86,7 +86,7 @@ class OrderStatusTest {
         order.paymentSuccess()
         order.approved()
         assertThatThrownBy({ order.approved() }).isInstanceOf(UnsupportedOperationException::class.java)
-        order.packageSent()
+        order.packageSent(Waybill.NULL)
         order.reject()
         assertThat(order.status).isEqualTo(OrderStatus.FAILED)
         assertThat(allChangeLogsWithoutCreateLog(order)).hasSize(4)

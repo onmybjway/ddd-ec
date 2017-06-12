@@ -50,6 +50,10 @@ class Order private constructor() : EntityObject() {
     lateinit var technical: Technical
         private set
 
+    @Embedded
+    var waybill: Waybill = Waybill.NULL
+        private set
+
     //    @Enumerated(EnumType.STRING)
     @Column(length = 2)
     @Convert(converter = EnumWithStringKeyConvert::class)
@@ -139,7 +143,10 @@ class Order private constructor() : EntityObject() {
 
     fun unpaid() = this.trackingStatus { this.status.paymentFailed(this) }
 
-    fun packageSent() = this.trackingStatus { this.status.packageSent(this) }
+    fun packageSent(waybill: Waybill) = this.trackingStatus {
+        this.waybill = waybill
+        this.status.packageSent(this)
+    }
 
     fun received() = this.trackingStatus { this.status.received(this) }
 
