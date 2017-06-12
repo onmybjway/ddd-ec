@@ -2,7 +2,7 @@ package core.ec.order.port.rest
 
 import core.ec.order.application.IOrderService
 import core.ec.order.application.OrderCreateCommand
-import core.ec.order.getNetAddress
+import core.ec.order.getRemoteAddress
 import core.ec.order.modelMapper
 import core.ec.order.port.dto.Order
 import org.springframework.web.bind.annotation.*
@@ -24,7 +24,7 @@ class OrderController(
 
     @RequestMapping(method = arrayOf(RequestMethod.POST))
     fun create(@RequestBody @Valid createCmd: OrderCreateCommand, request: HttpServletRequest): String {
-        createCmd.netAddress = request.getNetAddress()
+        createCmd.technical = OrderCreateCommand.Technical(request.getRemoteAddress(),""/*TODO: implement form server*/)
         val orderNumber = orderService.create(createCmd)
         return """{"result":"success","order-number":"$orderNumber"}"""
     }

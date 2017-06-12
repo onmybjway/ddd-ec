@@ -1,6 +1,7 @@
 package core.ec.order.unit
 
 import core.ec.common.DomainEvent
+import core.ec.order.application.OrderCreateCommand
 import core.ec.order.data_address
 import core.ec.order.data_member
 import core.ec.order.domain.event.OrderStatusChangedEvent
@@ -106,7 +107,8 @@ class OrderStatusTest {
         )
 
         val orderNumber = "test-01"
-        return OrderFactory.createOrder(orderNumber, member, address, cartItems, "remark")
+        return OrderFactory.createOrder(orderNumber, member, address, cartItems,
+                technical = Technical("110.110.110.110", "server01"),remark =  "remark")
     }
 
     private val allOrderStatusChangedEvent = Extractor<Any, Collection<DomainEvent>> {

@@ -6,6 +6,7 @@ import core.ec.order.data_member
 import core.ec.order.domain.model.*
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.KotlinModule
+import core.ec.order.application.OrderCreateCommand
 import core.ec.order.domain.model.Product
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
@@ -28,7 +29,13 @@ class OrderFactoryTest {
         )
 
         val orderNumber = "test-01"
-        val order = OrderFactory.createOrder(orderNumber, member, address, cartItems, "this is remark")
+        val order = OrderFactory.createOrder(
+                orderNumber = orderNumber,
+                member = member,
+                address = address,
+                cartItems = cartItems,
+                technical = Technical("110.110.110.110", "server01"),
+                remark = "this is remark")
 
         assertThat(order).isNotNull()
         assertThat(order.orderNumber).isEqualTo(orderNumber)

@@ -50,6 +50,8 @@ class OrderService(
 
         val address = modelMapper.map(createCmd.address, ShippingAddress::class.java)
 
+        val technical = modelMapper.map(createCmd.technical, Technical::class.java)
+
 /*        val items = createCmd.cartItems.map {
             //todo:需要优化为批量查询
             val product = productService.getByProductId(it.productId)
@@ -62,7 +64,7 @@ class OrderService(
             CartItem(product, it.quantity)
         }.toSet()*/
 
-        val allProduct = productService.findByProductIdIn(createCmd.cartItems.map { it.productId }.toList())
+        val allProduct = productService.findByProductIdIn(createCmd.cartItems.map { it.productId })
         val items = createCmd.cartItems.map { item ->
             val product = Optional.ofNullable(allProduct.filter { it.productId == item.productId }.firstOrNull())
                     .orElseThrow { -> ProductNotFoundException(item.productId) }
@@ -70,14 +72,16 @@ class OrderService(
             //todo:思考这部分验证商品价格变更的逻辑是否应该放在领域模型里
             //todo:this logic can extract to a function
             if (product.price != BigDecimal.valueOf(item.price)) throw ProductNotMatchException(item.productId)
-            CartItem(product, item.quantity
-            )
+
+            CartItem(product, item.quantity)
         }.toSet()
 
-        val order = OrderFactory.createOrder(generateOrderNumber(), member, address, items, createCmd.remark)
+        val order = OrderFactory.createOrder(
+                orderNumber = generateOrderNumber(), member = member, address = address,
+                cartItems = items, technical = technical, remark = createCmd.remark
+        )
 
         return this.orderRepository.save(order).orderNumber
-//        return order.orderNumber
     }
 
     @Async

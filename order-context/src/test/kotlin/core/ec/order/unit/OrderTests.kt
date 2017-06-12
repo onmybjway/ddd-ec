@@ -1,11 +1,11 @@
 package core.ec.order.unit
 
-import core.ec.order.domain.model.Order
-import core.ec.order.domain.model.OrderStatus
-import core.ec.order.domain.model.ProductSnapshot
 import core.ec.order.data_address
 import core.ec.order.data_member
+import core.ec.order.domain.model.Order
+import core.ec.order.domain.model.OrderStatus
 import core.ec.order.domain.model.Product
+import core.ec.order.domain.model.Technical
 import core.ec.order.exceptions.ProductOutOfStockException
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
@@ -23,8 +23,8 @@ class OrderTests {
     @Test
     fun initOrder_with_basc_logic() {
 
-        val order1 = Order("test-order", member, address)
-        val order2 = Order("test-order", member, address)
+        val order1 = Order(orderNumber = "test-order", member = member, shippingAddress = address, technical = Technical("110.110.110.110", "server01"), source = "pc")
+        val order2 = Order(orderNumber = "test-order", member = member, shippingAddress = address, technical = Technical("222.222.222.222", "server02"), source = "h5")
 
         assertThat(order1).isEqualTo(order2)
 
@@ -39,9 +39,9 @@ class OrderTests {
         val date = Date()
         Thread.sleep(1)
 
-        assertThatThrownBy { Order("", member, address) }.isInstanceOf(IllegalArgumentException::class.java)
+        assertThatThrownBy { Order("", member, address, technical = Technical("110.110.110.110", "server01"), remark = "pc") }.isInstanceOf(IllegalArgumentException::class.java)
 
-        val order = Order("123456", member, address)
+        val order = Order("123456", member, address, technical = Technical("110.110.110.119", "server02"), remark = "pc")
         assertThat(order).isNotNull()
         assertThat(order.status).isEqualTo(OrderStatus.NEW)
         assertThat(order.createTime).isAfterOrEqualsTo(date)
@@ -55,9 +55,9 @@ class OrderTests {
 
     @Test
     fun addItem_should_success() {
-        val order = Order("test-order", member, address)
-        val product01 = Product(productId = "product01", productName = "product01", thePrice = 100.017,inStock = 100)
-        val product02 = Product(productId = "product02", productName = "product02", thePrice = 200.053,inStock = 100)
+        val order = Order(orderNumber = "test-order", member = member, shippingAddress = address, technical = Technical("110.110.110.110", "server01"))
+        val product01 = Product(productId = "product01", productName = "product01", thePrice = 100.017, inStock = 100)
+        val product02 = Product(productId = "product02", productName = "product02", thePrice = 200.053, inStock = 100)
 
         // add product into order
         order.addItem(product01, 2)
@@ -84,8 +84,8 @@ class OrderTests {
 
     @Test
     fun addItem_should_fail_when_product_out_stock() {
-        val order = Order("test-order", member, address)
-        val product01 = Product(productId = "product01", productName = "product01", thePrice = 100.017,inStock = 100)
+        val order = Order(orderNumber = "test-order", member = member, shippingAddress = address, technical = Technical("110.110.110.110", "server01"))
+        val product01 = Product(productId = "product01", productName = "product01", thePrice = 100.017, inStock = 100)
 
         assertThatThrownBy { order.addItem(product01, 200) }.isInstanceOf(ProductOutOfStockException::class.java)
     }

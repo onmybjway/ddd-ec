@@ -42,8 +42,13 @@ class Order private constructor() : EntityObject() {
     @Column(length = 200)
     var remark: String = ""
 
-    @Column(length = 15)
-    var netAddress:String=""
+    @Column(length = 20)
+    var source: String = ""
+        private set
+
+    @Embedded
+    lateinit var technical: Technical
+        private set
 
     //    @Enumerated(EnumType.STRING)
     @Column(length = 2)
@@ -76,10 +81,18 @@ class Order private constructor() : EntityObject() {
     private val _logs: MutableSet<OrderChangeLog> = HashSet()
 
 
-    internal constructor(orderNumber: String, member: Member, shippingAddress: ShippingAddress, remark: String = "") : this() {
+    internal constructor(
+            orderNumber: String,
+            member: Member,
+            shippingAddress: ShippingAddress,
+            technical: Technical,
+            source: String = "",
+            remark: String = "") : this() {
         this.orderNumber = orderNumber
         this.member = member
         this.shippingAddress = shippingAddress
+        this.technical = technical
+        this.source = source
         this.remark = remark
         this.status = OrderStatus.NEW
 

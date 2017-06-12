@@ -29,7 +29,7 @@ class OrderServiceTest {
                     OrderCreateCommand.CartItem("product2", 9.99, 2)
             ),
             remark = "<h1>this is remark</h1>",
-            netAddress = "000.000.000.000"
+            technical = OrderCreateCommand.Technical("110.110.110.110", "server01")
     )
 
     @Test

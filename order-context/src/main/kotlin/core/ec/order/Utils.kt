@@ -12,5 +12,5 @@ val objectMapper = ObjectMapper().registerModule(KotlinModule())
 
 val modelMapper: ModelMapper = ModelMapper()
 
-fun HttpServletRequest.getNetAddress(): String =
+fun HttpServletRequest.getRemoteAddress(): String =
         if (this.getHeader("X-FORWARDED-FOR").isNullOrBlank()) this.remoteAddr else this.getHeader("X-FORWARDED-FOR")

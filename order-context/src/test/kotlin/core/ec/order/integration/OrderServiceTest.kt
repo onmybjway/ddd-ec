@@ -59,7 +59,7 @@ class OrderServiceTest {
                         OrderCreateCommand.CartItem("product3", 9.99, 3)
                 ),
                 remark = "<h1>this is remark</h1>",
-                netAddress = "110.110.110.110"
+                technical = OrderCreateCommand.Technical("110.110.110.110", "server01")
         )
         val result = orderService.create(newOrder)
         assertThat(result).isNotBlank()

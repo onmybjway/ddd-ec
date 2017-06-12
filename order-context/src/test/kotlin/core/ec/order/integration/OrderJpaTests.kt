@@ -3,7 +3,6 @@ package core.ec.order.integration
 import core.ec.order.data_address
 import core.ec.order.data_member
 import core.ec.order.domain.model.*
-import core.ec.order.domain.model.Product
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -35,7 +34,7 @@ class OrderJpaTests {
         val product02 = Product("product02", "product02", 200.053)
         val cartItems = setOf(CartItem(product01, 2), CartItem(product02, 1))
 
-        val order = OrderFactory.createOrder(orderNumber, member, address, cartItems, "")
+        val order = OrderFactory.createOrder(orderNumber, member, address, cartItems, Technical("100.100.100.100", "server1"), "")
         order.paymentSuccess()
         order.approved()
 

@@ -4,8 +4,10 @@ data class OrderCreateCommand(
         var memberId: Long,
         var address: ShippingAddress,
         var cartItems: Set<CartItem>,
+        var technical: Technical,
         val remark: String,
-        var netAddress: String
+        val source: String = ""
+
 ) {
     data class CartItem(
             val productId: String,
@@ -21,5 +23,10 @@ data class OrderCreateCommand(
             val zipCode: String,
             val contactNumber: String,
             val receiver: String
+    )
+
+    data class Technical(
+            val remoteAddress: String,
+            val viaNode: String
     )
 }
