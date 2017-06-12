@@ -50,7 +50,7 @@ class OrderService(
 
         val address = modelMapper.map(createCmd.address, ShippingAddress::class.java)
 
-        val items = createCmd.cartItems.map {
+/*        val items = createCmd.cartItems.map {
             //todo:需要优化为批量查询
             val product = productService.getByProductId(it.productId)
                     .orElseThrow { -> ProductNotFoundException(it.productId) }
@@ -60,6 +60,18 @@ class OrderService(
             if (product.price != BigDecimal.valueOf(it.price)) throw ProductNotMatchException(it.productId)
 
             CartItem(product, it.quantity)
+        }.toSet()*/
+
+        val allProduct = productService.findByProductIdIn(createCmd.cartItems.map { it.productId }.toList())
+        val items = createCmd.cartItems.map { item ->
+            val product = Optional.ofNullable(allProduct.filter { it.productId == item.productId }.firstOrNull())
+                    .orElseThrow { -> ProductNotFoundException(item.productId) }
+
+            //todo:思考这部分验证商品价格变更的逻辑是否应该放在领域模型里
+            //todo:this logic can extract to a function
+            if (product.price != BigDecimal.valueOf(item.price)) throw ProductNotMatchException(item.productId)
+            CartItem(product, item.quantity
+            )
         }.toSet()
 
         val order = OrderFactory.createOrder(generateOrderNumber(), member, address, items, createCmd.remark)

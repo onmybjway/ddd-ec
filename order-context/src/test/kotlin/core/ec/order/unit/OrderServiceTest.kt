@@ -39,8 +39,7 @@ class OrderServiceTest {
         `when`(memberService.getByMemberId(1)).thenReturn(Optional.of(Member(1, "ok", MemberStatus.ACTIVE)))
 
         val productService = mock(IProductService::class.java)
-        given(productService.getByProductId(Matchers.anyString()))
-                .willAnswer({ Optional.of(Product(it.arguments[0] as String, "product", 9.99, 9.00, 999)) })
+        productServiceSetup(productService) { Product(productId = it, productName = "product", thePrice = 9.99, theCost = 9.00, inStock = 999) }
 
         val orderRepository = mock(OrderRepository::class.java)
         given(orderRepository.save(any(Order::class.java))).willAnswer({ it.arguments[0] })
@@ -60,8 +59,7 @@ class OrderServiceTest {
         `when`(memberService.getByMemberId(1)).thenReturn(Optional.ofNullable(null))
 
         val productService = mock(IProductService::class.java)
-        given(productService.getByProductId(Matchers.anyString()))
-                .willAnswer({ Optional.of(Product(it.arguments[0] as String, "product", 9.99)) })
+        productServiceSetup(productService) { Product(productId = it, productName = "product", thePrice = 9.99, theCost = 9.00, inStock = 999) }
 
         val orderRepository = mock(OrderRepository::class.java)
         given(orderRepository.save(any(Order::class.java))).willAnswer({ it.arguments[0] })
@@ -80,7 +78,7 @@ class OrderServiceTest {
         `when`(memberService.getByMemberId(1)).thenReturn(Optional.of(Member(1, "ok", MemberStatus.ACTIVE)))
 
         val productService = mock(IProductService::class.java)
-        given(productService.getByProductId(Matchers.anyString())).willReturn(Optional.ofNullable(null))
+        productServiceSetup(productService) { Product(productId = it + "_hide", productName = "product", thePrice = 9.99, theCost = 9.00, inStock = 999) }
 
         val orderRepository = mock(OrderRepository::class.java)
         given(orderRepository.save(any(Order::class.java))).willAnswer({ it.arguments[0] })
@@ -99,8 +97,7 @@ class OrderServiceTest {
         `when`(memberService.getByMemberId(1)).thenReturn(Optional.of(Member(1, "ok", MemberStatus.ACTIVE)))
 
         val productService = mock(IProductService::class.java)
-        given(productService.getByProductId(Matchers.anyString()))
-                .willAnswer({ Optional.of(Product(it.arguments[0] as String, "product", 6.66)) })
+        productServiceSetup(productService) { Product(productId = it, productName = "product", thePrice = 6.66, theCost = 9.00, inStock = 999) }
 
         val orderRepository = mock(OrderRepository::class.java)
         given(orderRepository.save(any(Order::class.java))).willAnswer({ it.arguments[0] })
@@ -119,8 +116,7 @@ class OrderServiceTest {
         `when`(memberService.getByMemberId(1)).thenReturn(Optional.of(Member(1, "ok", MemberStatus.ACTIVE)))
 
         val productService = mock(IProductService::class.java)
-        given(productService.getByProductId(Matchers.anyString()))
-                .willAnswer({ Optional.of(Product(it.arguments[0] as String, "product", 9.99, 9.00, 0)) })
+        productServiceSetup(productService) { Product(productId = it, productName = "product", thePrice = 9.99, theCost = 9.00, inStock = 0) }
 
         val orderRepository = mock(OrderRepository::class.java)
         given(orderRepository.save(any(Order::class.java))).willAnswer({ it.arguments[0] })
@@ -139,8 +135,7 @@ class OrderServiceTest {
         `when`(memberService.getByMemberId(1)).thenReturn(Optional.of(Member(1, "ok", MemberStatus.BLOCKED)))
 
         val productService = mock(IProductService::class.java)
-        given(productService.getByProductId(Matchers.anyString()))
-                .willAnswer({ Optional.of(Product(it.arguments[0] as String, "product", 9.99, 9.00, 999)) })
+        productServiceSetup(productService) { Product(productId = it, productName = "product", thePrice = 9.99, theCost = 9.00, inStock = 999) }
 
         val orderRepository = mock(OrderRepository::class.java)
         given(orderRepository.save(any(Order::class.java))).willAnswer({ it.arguments[0] })
@@ -150,5 +145,10 @@ class OrderServiceTest {
 
         //assert
         assertThatThrownBy { orderService.create(createCmd) }.isInstanceOf(MemberUnavailableException::class.java)
+    }
+
+    private fun productServiceSetup(productService: IProductService, result: (productId: String) -> Product) {
+        given(productService.findByProductIdIn(Matchers.anyCollectionOf(String::class.java)))
+                .willAnswer { (it.arguments[0] as Collection<String>).map { result(it) } }
     }
 }
