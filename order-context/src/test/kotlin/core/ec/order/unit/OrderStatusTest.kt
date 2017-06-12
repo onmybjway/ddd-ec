@@ -5,7 +5,6 @@ import core.ec.order.data_address
 import core.ec.order.data_member
 import core.ec.order.domain.event.OrderStatusChangedEvent
 import core.ec.order.domain.model.*
-import core.ec.order.domain.model.Product
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.assertj.core.api.iterable.Extractor
@@ -102,8 +101,8 @@ class OrderStatusTest {
         val address = data_address
 
         val cartItems = setOf(
-                CartItem(Product("p01", "product01", 100.1), 1),
-                CartItem(Product("p02", "product02", 200.6), 2)
+                CartItem(Product(productId = "p01", productName = "product01", thePrice = 100.1, inStock = 100), 1),
+                CartItem(Product(productId = "p02", productName = "product02", thePrice = 200.6, inStock = 100), 2)
         )
 
         val orderNumber = "test-01"

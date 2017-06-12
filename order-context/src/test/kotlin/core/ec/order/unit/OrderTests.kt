@@ -6,6 +6,7 @@ import core.ec.order.domain.model.ProductSnapshot
 import core.ec.order.data_address
 import core.ec.order.data_member
 import core.ec.order.domain.model.Product
+import core.ec.order.exceptions.ProductOutOfStockException
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.Test
@@ -20,7 +21,7 @@ class OrderTests {
     private val address = data_address
 
     @Test
-    fun base_order() {
+    fun initOrder_with_basc_logic() {
 
         val order1 = Order("test-order", member, address)
         val order2 = Order("test-order", member, address)
@@ -34,7 +35,7 @@ class OrderTests {
     }
 
     @Test
-    fun create_order() {
+    fun initOrder_should_success() {
         val date = Date()
         Thread.sleep(1)
 
@@ -53,10 +54,10 @@ class OrderTests {
     }
 
     @Test
-    fun add_item_into_order() {
+    fun addItem_should_success() {
         val order = Order("test-order", member, address)
-        val product01 = Product("product01", "product01", 100.017)
-        val product02 = Product("product02", "product02", 200.053)
+        val product01 = Product(productId = "product01", productName = "product01", thePrice = 100.017,inStock = 100)
+        val product02 = Product(productId = "product02", productName = "product02", thePrice = 200.053,inStock = 100)
 
         // add product into order
         order.addItem(product01, 2)
@@ -82,11 +83,12 @@ class OrderTests {
     }
 
     @Test
-    fun test_prodcutSnapshot() {
-        val product02 = Product("product02", "product02", 200.053)
-        val ps1 = ProductSnapshot(product02)
-        val ps2 = ProductSnapshot(product02)
+    fun addItem_should_fail_when_product_out_stock() {
+        val order = Order("test-order", member, address)
+        val product01 = Product(productId = "product01", productName = "product01", thePrice = 100.017,inStock = 100)
 
-        assertThat(ps1).isEqualTo(ps2)
+        assertThatThrownBy { order.addItem(product01, 200) }.isInstanceOf(ProductOutOfStockException::class.java)
     }
+
+
 }

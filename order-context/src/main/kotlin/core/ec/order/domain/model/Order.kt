@@ -42,6 +42,9 @@ class Order private constructor() : EntityObject() {
     @Column(length = 200)
     var remark: String = ""
 
+    @Column(length = 15)
+    var netAddress:String=""
+
     //    @Enumerated(EnumType.STRING)
     @Column(length = 2)
     @Convert(converter = EnumWithStringKeyConvert::class)

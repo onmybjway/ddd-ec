@@ -20,15 +20,16 @@ import java.util.*
 class OrderServiceTest {
 
     private val createCmd = OrderCreateCommand(
-            1,
-            OrderCreateCommand.ShippingAddress("hebei",
+            memberId = 1,
+            address = OrderCreateCommand.ShippingAddress("hebei",
                     "baoding", "lianchi", "hongxing road No.1",
                     "071000", "13000000000", "zhaoqiang"),
-            setOf(
+            cartItems = setOf(
                     OrderCreateCommand.CartItem("product1", 9.99, 1),
                     OrderCreateCommand.CartItem("product2", 9.99, 2)
             ),
-            "<h1>this is remark</h1>"
+            remark = "<h1>this is remark</h1>",
+            netAddress = "000.000.000.000"
     )
 
     @Test
@@ -39,7 +40,7 @@ class OrderServiceTest {
 
         val productService = mock(IProductService::class.java)
         given(productService.getByProductId(Matchers.anyString()))
-                .willAnswer({ Optional.of(Product(it.arguments[0] as String, "product", 9.99, 999)) })
+                .willAnswer({ Optional.of(Product(it.arguments[0] as String, "product", 9.99, 9.00, 999)) })
 
         val orderRepository = mock(OrderRepository::class.java)
         given(orderRepository.save(any(Order::class.java))).willAnswer({ it.arguments[0] })
@@ -119,7 +120,7 @@ class OrderServiceTest {
 
         val productService = mock(IProductService::class.java)
         given(productService.getByProductId(Matchers.anyString()))
-                .willAnswer({ Optional.of(Product(it.arguments[0] as String, "product", 9.99, 0)) })
+                .willAnswer({ Optional.of(Product(it.arguments[0] as String, "product", 9.99, 9.00, 0)) })
 
         val orderRepository = mock(OrderRepository::class.java)
         given(orderRepository.save(any(Order::class.java))).willAnswer({ it.arguments[0] })
@@ -139,7 +140,7 @@ class OrderServiceTest {
 
         val productService = mock(IProductService::class.java)
         given(productService.getByProductId(Matchers.anyString()))
-                .willAnswer({ Optional.of(Product(it.arguments[0] as String, "product", 9.99, 999)) })
+                .willAnswer({ Optional.of(Product(it.arguments[0] as String, "product", 9.99, 9.00, 999)) })
 
         val orderRepository = mock(OrderRepository::class.java)
         given(orderRepository.save(any(Order::class.java))).willAnswer({ it.arguments[0] })

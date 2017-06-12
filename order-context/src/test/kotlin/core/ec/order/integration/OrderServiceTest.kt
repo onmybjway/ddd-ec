@@ -49,16 +49,17 @@ class OrderServiceTest {
     @Test
     fun create() {
         val newOrder = OrderCreateCommand(
-                1,
-                OrderCreateCommand.ShippingAddress("hebei",
+                memberId = 1,
+                address = OrderCreateCommand.ShippingAddress("hebei",
                         "baoding", "lianchi", "hongxing road No.1",
                         "071000", "13000000000", "zhaoqiang"),
-                setOf(
+                cartItems = setOf(
                         OrderCreateCommand.CartItem("product1", 9.99, 1),
                         OrderCreateCommand.CartItem("product2", 9.99, 2),
                         OrderCreateCommand.CartItem("product3", 9.99, 3)
                 ),
-                "<h1>this is remark</h1>"
+                remark = "<h1>this is remark</h1>",
+                netAddress = "110.110.110.110"
         )
         val result = orderService.create(newOrder)
         assertThat(result).isNotBlank()

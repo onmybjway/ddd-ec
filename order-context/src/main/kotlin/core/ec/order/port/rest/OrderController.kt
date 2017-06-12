@@ -2,9 +2,11 @@ package core.ec.order.port.rest
 
 import core.ec.order.application.IOrderService
 import core.ec.order.application.OrderCreateCommand
+import core.ec.order.getNetAddress
 import core.ec.order.modelMapper
 import core.ec.order.port.dto.Order
 import org.springframework.web.bind.annotation.*
+import javax.servlet.http.HttpServletRequest
 import javax.validation.Valid
 
 @RestController
@@ -21,8 +23,9 @@ class OrderController(
     }
 
     @RequestMapping(method = arrayOf(RequestMethod.POST))
-    fun create(@RequestBody @Valid orderCreateCommand: OrderCreateCommand): String {
-        val orderNumber = orderService.create(orderCreateCommand)
+    fun create(@RequestBody @Valid createCmd: OrderCreateCommand, request: HttpServletRequest): String {
+        createCmd.netAddress = request.getNetAddress()
+        val orderNumber = orderService.create(createCmd)
         return """{"result":"success","order-number":"$orderNumber"}"""
     }
 

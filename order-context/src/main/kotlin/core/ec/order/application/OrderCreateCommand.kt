@@ -4,11 +4,12 @@ data class OrderCreateCommand(
         var memberId: Long,
         var address: ShippingAddress,
         var cartItems: Set<CartItem>,
-        val remark: String
+        val remark: String,
+        var netAddress: String
 ) {
     data class CartItem(
             val productId: String,
-            val price:Double,
+            val price: Double,
             val quantity: Int
     )
 
