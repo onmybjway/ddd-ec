@@ -5,6 +5,6 @@ import core.ec.order.domain.model.Member
 import java.util.*
 
 
-interface IMemberService {
+interface MemberServiceAdapter {
     fun getByMemberId(memberId:Long): Optional<Member>
 }

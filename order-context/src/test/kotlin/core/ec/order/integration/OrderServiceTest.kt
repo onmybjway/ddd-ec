@@ -2,8 +2,8 @@ package core.ec.order.integration
 
 import core.ec.order.application.IOrderService
 import core.ec.order.application.OrderCreateCommand
-import core.ec.order.port.IMemberService
-import core.ec.order.port.IProductService
+import core.ec.order.port.MemberServiceAdapter
+import core.ec.order.port.ProductServiceAdapter
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Ignore
 import org.junit.Test
@@ -23,10 +23,10 @@ class OrderServiceTest {
     lateinit var orderService: IOrderService
 
     @MockBean
-    lateinit var memberService: IMemberService
+    lateinit var memberServiceAdapter: MemberServiceAdapter
 
     @MockBean
-    lateinit var productService: IProductService
+    lateinit var productServiceAdapter: ProductServiceAdapter
 
     @Test
     fun getByOrderNumber() {

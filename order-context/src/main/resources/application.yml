@@ -6,7 +6,7 @@ spring:
     console: enabled
 
 
-productService:
+productServiceAdapter:
   urlbase: http://localhost:8080/product
 
 logging:

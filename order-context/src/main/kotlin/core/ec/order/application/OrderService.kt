@@ -8,8 +8,8 @@ import core.ec.order.exceptions.MemberUnavailableException
 import core.ec.order.exceptions.ProductNotFoundException
 import core.ec.order.exceptions.ProductNotMatchException
 import core.ec.order.modelMapper
-import core.ec.order.port.IMemberService
-import core.ec.order.port.IProductService
+import core.ec.order.port.MemberServiceAdapter
+import core.ec.order.port.ProductServiceAdapter
 import org.apache.commons.lang3.RandomStringUtils
 import org.slf4j.LoggerFactory
 import org.springframework.context.event.EventListener
@@ -28,8 +28,8 @@ import javax.transaction.Transactional
 @Service
 class OrderService(
         val orderRepository: OrderRepository,
-        val memberService: IMemberService,
-        val productService: IProductService
+        val memberService: MemberServiceAdapter,
+        val productService: ProductServiceAdapter
 
 ) : IOrderService {
 

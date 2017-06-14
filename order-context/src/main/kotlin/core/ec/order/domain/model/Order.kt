@@ -153,12 +153,12 @@ class Order private constructor() : EntityObject() {
     fun reject() = this.trackingStatus { this.status.reject(this) }
 
     private fun trackingStatus(toChange: () -> Unit) {
-        val beforStatus = this.status
+        val beforeStatus = this.status
         toChange()
         //record log
-        this._logs.add(OrderChangeLog(fromStatus = beforStatus, toStatus = this.status))
+        this._logs.add(OrderChangeLog(fromStatus = beforeStatus, toStatus = this.status))
         //trigger event(record)
-        this._events.add(OrderStatusChangedEvent(this.orderNumber, beforStatus, changeTo = this.status))
+        this._events.add(OrderStatusChangedEvent(this.orderNumber, beforeStatus, changeTo = this.status))
 
         this.lastChangeTime = Date()
     }
