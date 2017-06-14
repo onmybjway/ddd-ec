@@ -6,13 +6,18 @@ import javax.persistence.Embeddable
 
 @Embeddable
 class Technical(
-        @Column(length = 15)
-        val remoteAddress: String,
-
-        @Column(length = 15)
-        val viaNode: String
+        remoteAddress: String,
+        viaNode: String
 )
     : ValueObject() {
+
+    @Column(length = 15)
+    var remoteAddress = remoteAddress
+        private set
+
+    @Column(length = 15)
+    var viaNode = viaNode
+        private set
 
     private constructor() : this(remoteAddress = "", viaNode = "")
 }

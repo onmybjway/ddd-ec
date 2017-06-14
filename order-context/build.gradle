@@ -1,6 +1,6 @@
 buildscript {
 	ext {
-		kotlinVersion = '1.1.2-2'
+		kotlinVersion = '1.1.2-5'
 		springBootVersion = '1.5.3.RELEASE'
 	}
 	repositories {
@@ -53,7 +53,7 @@ dependencies {
 
 	compile project (':common')
 //	compile project (':product-context')
-//	compile project (':member-context')
+	compile project (':member-context')
 
 
 

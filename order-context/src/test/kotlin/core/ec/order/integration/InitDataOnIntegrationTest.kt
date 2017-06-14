@@ -21,7 +21,7 @@ class InitDataOnIntegrationTest : ApplicationListener<ApplicationReadyEvent> {
 
     override fun onApplicationEvent(event: ApplicationReadyEvent?) {
         val orderRepository = context.getBean(OrderRepository::class.java)
-        (1..50).forEach { orderRepository.save(newOrder(it)) }
+       // (1..50).forEach { orderRepository.save(newOrder(it)) }
     }
 
     private fun newOrder(seed: Int): Order {

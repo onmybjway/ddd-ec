@@ -55,9 +55,9 @@ class OrderFactoryTest {
         assertThat(events).isNotNull
         assertThat(events).hasSize(1)
 
-        val mapper = ObjectMapper().registerModule(KotlinModule())
-        val writer:StringWriter= StringWriter()
-        mapper.writeValue(writer, order)
-        println(writer)
+//        val mapper = ObjectMapper().registerModule(KotlinModule())
+//        val writer:StringWriter= StringWriter()
+//        mapper.writeValue(writer, order)
+//        println(writer)
     }
 }

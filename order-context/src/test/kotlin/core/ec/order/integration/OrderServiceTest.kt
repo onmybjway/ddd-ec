@@ -1,7 +1,10 @@
 package core.ec.order.integration
 
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.KotlinModule
 import core.ec.order.application.IOrderService
 import core.ec.order.application.OrderCreateCommand
+import core.ec.order.objectMapper
 import core.ec.order.port.MemberServiceAdapter
 import core.ec.order.port.ProductServiceAdapter
 import org.assertj.core.api.Assertions.assertThat
@@ -13,6 +16,8 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.data.domain.PageRequest
 import org.springframework.test.context.junit4.SpringRunner
+import java.io.StringWriter
+
 
 @RunWith(SpringRunner::class)
 @SpringBootTest
@@ -22,11 +27,11 @@ class OrderServiceTest {
     @Autowired
     lateinit var orderService: IOrderService
 
-    @MockBean
-    lateinit var memberServiceAdapter: MemberServiceAdapter
+//    @MockBean
+//    lateinit var memberServiceAdapter: MemberServiceAdapter
 
-    @MockBean
-    lateinit var productServiceAdapter: ProductServiceAdapter
+//    @MockBean
+//    lateinit var productServiceAdapter: ProductServiceAdapter
 
     @Test
     fun getByOrderNumber() {
@@ -45,7 +50,7 @@ class OrderServiceTest {
         assertThat(orders).hasSize(50)
     }
 
-    @Ignore
+
     @Test
     fun create() {
         val newOrder = OrderCreateCommand(
@@ -63,6 +68,11 @@ class OrderServiceTest {
         )
         val result = orderService.create(newOrder)
         assertThat(result).isNotBlank()
+
+
+        val writer: StringWriter = StringWriter()
+        objectMapper.writeValue(writer, newOrder)
+        println(writer)
     }
 }
 

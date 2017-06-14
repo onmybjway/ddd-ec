@@ -3,20 +3,25 @@ package core.ec.order.domain.model
 import core.ec.common.ValueObject
 import javax.persistence.Transient
 
-class Member(
-        val memberId: Long,
-        val memberName: String,
-
-        @Transient
-        val status: MemberStatus = MemberStatus.UNKNOWN
+class Member constructor(
+        memberId: Long = 0,
+        memberName: String = "",
+        status: MemberStatus = MemberStatus.UNKNOWN
 
 ) : ValueObject() {
 
-    private constructor() : this(0, "")
+    var memberId = memberId
+        private set
 
+    var memberName: String = memberName
+        private set
+
+    @Transient
+    var status: MemberStatus = status
+        private set
 }
 
 enum class MemberStatus {
-    ACTIVE, BLOCKED,UNKNOWN
+    ACTIVE, BLOCKED, UNKNOWN
 
 }
