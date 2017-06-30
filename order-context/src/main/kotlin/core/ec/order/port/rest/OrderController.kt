@@ -11,6 +11,7 @@ import javax.validation.Valid
 
 @RestController
 @RequestMapping("/order")
+@CrossOrigin("*")
 class OrderController(
         val orderService: IOrderService
 ) {
@@ -19,7 +20,7 @@ class OrderController(
 
     @RequestMapping("hi")
     fun index(): String {
-        return "Hi"
+        return "{'Hi':'hi'}"
     }
 
     @RequestMapping(method = arrayOf(RequestMethod.POST))
