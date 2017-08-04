@@ -16,6 +16,6 @@ class MemberServiceLocalAdapter(
     override fun getByMemberId(memberId: Long): Optional<Member> {
         val member = memberService.getByMemberId(memberId).orElseThrow { MemberNotFoundException(memberId) }
         return Optional.of(modelMapper.map(member,Member::class.java))
-//        return Optional.of(Member(member.memberId, member.memberName, MemberStatus.valueOf(member.status.toString())))
+//        return Optional.of(Member(member.memberId, member.memberName, MemberStatus.valueOf(member.valid.toString())))
     }
 }

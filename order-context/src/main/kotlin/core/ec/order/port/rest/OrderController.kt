@@ -27,7 +27,7 @@ class OrderController(
     fun create(@RequestBody @Valid createCmd: OrderCreateCommand, request: HttpServletRequest): String {
         createCmd.technical = OrderCreateCommand.Technical(request.getRemoteAddress(),""/*TODO: implement form server*/)
         val orderNumber = orderService.create(createCmd)
-        return """{"result":"success","order-number":"$orderNumber"}"""
+        return """{"result":"valid","order-number":"$orderNumber"}"""
     }
 
     @RequestMapping(method = arrayOf(RequestMethod.GET), value = "{orderNumber}")
