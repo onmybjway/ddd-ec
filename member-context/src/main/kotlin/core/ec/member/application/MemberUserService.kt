@@ -13,9 +13,10 @@ class MemberUserService(
         val memberRepository: MemberRepository
 ) : UserDetailsService {
     override fun loadUserByUsername(username: String): UserDetails {
-        val member = this.memberRepository.getByMemberName(username)
-        return member.map { m ->
-            User(m.memberName, "pwd", setOf(SimpleGrantedAuthority("ENDUSER")))
-        }.orElseThrow { UsernameNotFoundException(username) }
+        return memberRepository.getByMemberName(username)
+                .map { m ->
+                    User(m.memberName, m.password, setOf(SimpleGrantedAuthority("ENDUSER")))
+                }
+                .orElseThrow { UsernameNotFoundException(username) }
     }
 }

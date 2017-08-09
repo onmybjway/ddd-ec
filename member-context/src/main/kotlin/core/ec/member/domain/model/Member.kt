@@ -1,25 +1,40 @@
 package core.ec.member.domain.model
 
+import core.ec.common.EntityObject
 import javax.persistence.Entity
-import javax.persistence.Enumerated
 import javax.persistence.GeneratedValue
+import javax.persistence.GenerationType
 import javax.persistence.Id
 
 
 @Entity
-class Member private constructor() {
+class Member constructor(
+
+        var memberName: String = "",
+
+        var password: String = "",
+        var status: MemberStatus = MemberStatus.UNKNOWN
+
+) : EntityObject() {
+
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     val memberId: Long = 0
 
-    var memberName: String = ""
 
-    var status: MemberStatus = MemberStatus.UNKNOWN
+/*    constructor(
+            memberName: String,
+            status: MemberStatus = MemberStatus.ACTIVE,
+            password: String
 
-    constructor(memberName: String, status: MemberStatus = MemberStatus.ACTIVE) : this() {
+
+    ) : this() {
         this.memberName = memberName
         this.status = status
-    }
+        this.password = password
+
+    }*/
+
 }
 
 enum class MemberStatus {
