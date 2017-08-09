@@ -10,6 +10,7 @@ import org.springframework.context.ApplicationListener
 import org.springframework.stereotype.Component
 import org.springframework.test.context.ActiveProfiles
 
+
 @Component
 @ActiveProfiles("dev")
 class InitDataOnDev : ApplicationListener<ApplicationReadyEvent> {
