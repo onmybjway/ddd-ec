@@ -7,7 +7,7 @@ import core.ec.order.exceptions.MemberNotFoundException
 import core.ec.order.exceptions.MemberUnavailableException
 import core.ec.order.exceptions.ProductNotFoundException
 import core.ec.order.exceptions.ProductNotMatchException
-import core.ec.order.modelMapper
+import core.ec.common.modelMapper
 import core.ec.order.port.MemberServiceAdapter
 import core.ec.order.port.ProductServiceAdapter
 import org.apache.commons.lang3.RandomStringUtils

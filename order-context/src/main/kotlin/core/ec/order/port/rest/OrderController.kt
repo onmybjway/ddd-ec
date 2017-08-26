@@ -2,8 +2,8 @@ package core.ec.order.port.rest
 
 import core.ec.order.application.IOrderService
 import core.ec.order.application.OrderCreateCommand
-import core.ec.order.getRemoteAddress
-import core.ec.order.modelMapper
+import core.ec.common.getRemoteAddress
+import core.ec.common.modelMapper
 import core.ec.order.port.dto.Order
 import org.springframework.web.bind.annotation.*
 import javax.servlet.http.HttpServletRequest

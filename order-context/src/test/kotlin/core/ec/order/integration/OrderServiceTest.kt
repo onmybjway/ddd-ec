@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import core.ec.order.application.IOrderService
 import core.ec.order.application.OrderCreateCommand
-import core.ec.order.objectMapper
+import core.ec.common.objectMapper
 import core.ec.order.port.MemberServiceAdapter
 import core.ec.order.port.ProductServiceAdapter
 import org.assertj.core.api.Assertions.assertThat

@@ -4,7 +4,7 @@ import core.ec.member.application.MemberService
 import core.ec.order.domain.model.Member
 import core.ec.order.domain.model.MemberStatus
 import core.ec.order.exceptions.MemberNotFoundException
-import core.ec.order.modelMapper
+import core.ec.common.modelMapper
 import core.ec.order.port.MemberServiceAdapter
 import org.springframework.stereotype.Component
 import java.util.*

@@ -20,7 +20,7 @@ class InitDataOnIntegrationTest : ApplicationListener<ApplicationReadyEvent> {
     lateinit var context: ApplicationContext
 
     override fun onApplicationEvent(event: ApplicationReadyEvent?) {
-        val orderRepository = context.getBean(OrderRepository::class.java)
+//        val orderRepository = context.getBean(OrderRepository::class.java)
        // (1..50).forEach { orderRepository.save(newOrder(it)) }
     }
 

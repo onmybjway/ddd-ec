@@ -12,7 +12,6 @@ import org.springframework.stereotype.Component
 
 
 @Component
-
 class InitDataOnDev : ApplicationListener<ApplicationReadyEvent> {
 
     @Autowired
@@ -27,7 +26,6 @@ class InitDataOnDev : ApplicationListener<ApplicationReadyEvent> {
                             password = encoder.encode("pwd"),
                             status = MemberStatus.ACTIVE
                     )
-
             )
         }
 
