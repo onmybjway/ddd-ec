@@ -20,7 +20,7 @@ class InitDataOnDev : ApplicationListener<ApplicationReadyEvent> {
 
     override fun onApplicationEvent(event: ApplicationReadyEvent?) {
         val repository = context.getBean(MemberRepository::class.java)
-        (1..10).forEach { repository.save(Member("member$it", MemberStatus.ACTIVE)) }
+        (1..10).forEach { repository.save(Member("member$it", "", MemberStatus.ACTIVE)) }
     }
 
 

@@ -1,6 +1,7 @@
 package core.ec.member
 
-import core.ec.member.application.MemberUserService
+import core.ec.member.application.SecurityUserWithId
+import core.ec.member.application.SecurityUserService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.autoconfigure.security.SecurityProperties
 import org.springframework.context.annotation.Bean
@@ -8,12 +9,17 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Primary
 import org.springframework.core.annotation.Order
 import org.springframework.http.HttpMethod
+import org.springframework.security.access.expression.method.MethodSecurityExpressionHandler
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity
+import org.springframework.security.config.annotation.method.configuration.GlobalMethodSecurityConfiguration
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
 import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.crypto.password.StandardPasswordEncoder
+import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken
+import org.springframework.security.oauth2.common.OAuth2AccessToken
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer
@@ -22,6 +28,8 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.R
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer
+import org.springframework.security.oauth2.provider.OAuth2Authentication
+import org.springframework.security.oauth2.provider.expression.OAuth2MethodSecurityExpressionHandler
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices
 import org.springframework.security.oauth2.provider.token.TokenStore
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter
@@ -30,13 +38,12 @@ import org.springframework.security.oauth2.provider.token.store.JwtTokenStore
 
 @Configuration
 @Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
-//@EnableGlobalMethodSecurity(prePostEnabled = true)
 class SecurityConfig : WebSecurityConfigurerAdapter() {
 
     @Autowired
-    lateinit var userDetailsService: MemberUserService
+    lateinit var userDetailsService: SecurityUserService
 
-    override fun configure(auth: AuthenticationManagerBuilder){
+    override fun configure(auth: AuthenticationManagerBuilder) {
 //        auth.inMemoryAuthentication().withUser("user").password("pwd").roles("ENDUSER", "ADMIN")
 /*        val provider = DaoAuthenticationProvider()
         provider.setPasswordEncoder(this.passwordEncoder())
@@ -126,8 +133,27 @@ class JwtConfig {
 
     @Bean
     fun accessTokenConverter(): JwtAccessTokenConverter {
-        val converter = JwtAccessTokenConverter()
+        val converter = LocalJwtAccessTokenConverter()
         converter.setSigningKey("key")
         return converter
     }
+
+    class LocalJwtAccessTokenConverter : JwtAccessTokenConverter() {
+        override fun enhance(accessToken: OAuth2AccessToken, authentication: OAuth2Authentication): OAuth2AccessToken {
+            // append the memberId into JWT token
+            (accessToken as DefaultOAuth2AccessToken).additionalInformation =
+                    mapOf("user_id" to (authentication.principal as SecurityUserWithId).userId)
+            return super.enhance(accessToken, authentication)
+        }
+    }
+}
+
+@Configuration
+@EnableGlobalMethodSecurity(prePostEnabled = true)
+class MethodSecurityConfig : GlobalMethodSecurityConfiguration() {
+
+    override fun createExpressionHandler(): MethodSecurityExpressionHandler {
+        return OAuth2MethodSecurityExpressionHandler()
+    }
+
 }
