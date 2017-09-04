@@ -21,7 +21,7 @@ class MemberController {
         return user
     }
 
-    @RequestMapping("{memberId}/summary")
+    @GetMapping("{memberId}/summary")
     @PreAuthorize("hasRole('ENDUSER') or (hasRole('ADMIN') and #oauth2.hasScope('read'))")
     @PostAuthorize("returnObject.memberName == authentication.name")
     fun summary(@PathVariable memberId: Long, principal: Principal): MemberSummary {

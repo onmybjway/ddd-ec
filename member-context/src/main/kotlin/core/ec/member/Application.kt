@@ -1,6 +1,8 @@
 package core.ec.member
 
-@org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.boot.autoconfigure.SpringBootApplication
+
+@SpringBootApplication(scanBasePackages = arrayOf("core.ec"))
 class Application
 
 fun main(args: Array<String>) {
